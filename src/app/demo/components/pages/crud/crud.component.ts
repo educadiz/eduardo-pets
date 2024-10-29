@@ -1,9 +1,14 @@
+
+// fiz modificações aqui e estão comentadas
+
+
 import { Component, OnInit } from '@angular/core';
-import { Product } from 'src/app/demo/api/product';
+//import { Product } from 'src/app/demo/api/product';
+import { Product } from './../../../../demo/api/product';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { ProductService } from 'src/app/demo/service/product.service';
-
+//import { ProductService } from 'src/app/demo/service/product.service';
+import { ProductService } from './../../../service/product.service';
 @Component({
     templateUrl: './crud.component.html',
     providers: [MessageService]
@@ -36,6 +41,7 @@ export class CrudComponent implements OnInit {
         this.productService.getProducts().then(data => this.products = data);
 
         this.cols = [
+            { field: 'product', header: 'Product' },
             { field: 'product', header: 'Product' },
             { field: 'price', header: 'Price' },
             { field: 'category', header: 'Category' },
@@ -99,9 +105,9 @@ export class CrudComponent implements OnInit {
                 this.products[this.findIndexById(this.product.id)] = this.product;
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
             } else {
-                this.product.id = this.createId();
-                this.product.code = this.createId();
-                this.product.image = 'product-placeholder.svg';
+                
+                this.productService.createProduct(this.product); // <-
+                
                 // @ts-ignore
                 this.product.inventoryStatus = this.product.inventoryStatus ? this.product.inventoryStatus.value : 'INSTOCK';
                 this.products.push(this.product);

@@ -1,3 +1,6 @@
+// fiz modificações aqui e estão comentadas
+
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -16,6 +19,10 @@ import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
+import { AngularFireDatabase } from '@angular/fire/compat/database';    // <- Inseri mas nao usa
+import { ProductService } from './../../../service/product.service';    // <- Inseri mas não usa
+
+
 
 @NgModule({
     imports: [
@@ -23,6 +30,8 @@ import { DialogModule } from 'primeng/dialog';
         CrudRoutingModule,
         TableModule,
         FileUploadModule,
+        //AngularFireDatabase,    // <- 
+        //ProductService,         // <- 
         FormsModule,
         ButtonModule,
         RippleModule,
