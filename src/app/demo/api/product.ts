@@ -14,3 +14,12 @@ export interface Product {
     image?: string;
     rating?: number;
 }
+
+
+
+
+
+
+
+
+

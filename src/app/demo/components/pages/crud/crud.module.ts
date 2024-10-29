@@ -1,5 +1,6 @@
-// fiz modificações aqui e estão comentadas
-
+//
+// Fiz modificações aqui e estão comentadas
+//
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -30,8 +31,8 @@ import { ProductService } from './../../../service/product.service';    // <- In
         CrudRoutingModule,
         TableModule,
         FileUploadModule,
-        //AngularFireDatabase,    // <- 
-        //ProductService,         // <- 
+        //AngularFireDatabase,    // <- Não tá usando
+        //ProductService,         // <- Não tá usando
         FormsModule,
         ButtonModule,
         RippleModule,

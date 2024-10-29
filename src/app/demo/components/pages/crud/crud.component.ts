@@ -1,14 +1,15 @@
 
-// fiz modificações aqui e estão comentadas
+// Fiz modificações aqui e estão comentadas:
 
 
 import { Component, OnInit } from '@angular/core';
-//import { Product } from 'src/app/demo/api/product';
 import { Product } from './../../../../demo/api/product';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-//import { ProductService } from 'src/app/demo/service/product.service';
 import { ProductService } from './../../../service/product.service';
+//import { Product } from 'src/app/demo/api/product';
+//import { ProductService } from 'src/app/demo/service/product.service';
+
 @Component({
     templateUrl: './crud.component.html',
     providers: [MessageService]
@@ -49,10 +50,12 @@ export class CrudComponent implements OnInit {
             { field: 'inventoryStatus', header: 'Status' }
         ];
 
+        // Mudei aqui embaixo: ( mostra itens do menu dropdown)
+        //
         this.statuses = [
-            { label: 'INSTOCK', value: 'instock' },
-            { label: 'LOWSTOCK', value: 'lowstock' },
-            { label: 'OUTOFSTOCK', value: 'outofstock' }
+            { label: 'Macho', value: 'Macho' },
+            { label: 'Fêmea', value: 'Fêmea' },
+            { label: 'Não informado', value: 'Não informado' }
         ];
     }
 
@@ -76,19 +79,43 @@ export class CrudComponent implements OnInit {
         this.product = { ...product };
     }
 
-    confirmDeleteSelected() {
-        this.deleteProductsDialog = false;
-        this.products = this.products.filter(val => !this.selectedProducts.includes(val));
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
-        this.selectedProducts = [];
+    listProducts() {
+        this.productService.getAllProducts().subscribe(
+            (data: Product[]) => {
+                this.products = data; 
+            },
+            (error) => {
+                console.error('Erro ao listar produtos:', error); 
+            }
+        );
     }
 
-    confirmDelete() {
-        this.deleteProductDialog = false;
-        this.products = this.products.filter(val => val.id !== this.product.id);
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
-        this.product = {};
-    }
+        confirmDeleteSelected() {
+            this.deleteProductsDialog = false;
+        
+            const idsToDelete = this.selectedProducts.map(product => product.id);
+            
+            // Chama o método de exclusão em lote no serviço
+            this.productService.deleteProducts(idsToDelete).then(() => {
+                // Atualiza a lista de produtos após a exclusão
+                this.products = this.products.filter(val => !this.selectedProducts.includes(val));
+                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
+                this.selectedProducts = [];
+            });
+        }
+        
+        confirmDelete() {
+            this.deleteProductDialog = false;
+        
+            // Chama o método de exclusão no serviço
+            this.productService.deleteProduct(this.product.id).then(() => {
+                // Atualiza a lista de produtos após a exclusão
+                this.products = this.products.filter(val => val.id !== this.product.id);
+                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+                this.product = {};
+            });
+        }
+        
 
     hideDialog() {
         this.productDialog = false;
